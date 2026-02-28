@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>كوداك - الصفحة الرئيسية</title>
+    <style>
+        body { 
+            font-family: 'Segoe UI', Tahoma, sans-serif; 
+            background: #f0f4f8; 
+            margin: 0; 
+            padding: 0; 
+            direction: rtl; 
+            text-align: right; 
+        }
+        header { 
+            background: #2c3e50; 
+            color: white; 
+            padding: 15px 30px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+        }
+        header h1 { margin: 0; }
+        .auth-links a { 
+            color: white; 
+            margin-left: 20px; 
+            text-decoration: none; 
+            font-weight: bold; 
+        }
+        .auth-links a:hover { text-decoration: underline; }
+        .container { 
+            max-width: 1200px; 
+            margin: 40px auto; 
+            padding: 0 20px; 
+            text-align: center; 
+        }
+        .welcome { 
+            font-size: 28px; 
+            color: #34495e; 
+            margin-bottom: 30px; 
+        }
+        .btn { 
+            display: inline-block; 
+            padding: 12px 30px; 
+            background: #3498db; 
+            color: white; 
+            text-decoration: none; 
+            border-radius: 6px; 
+            font-size: 18px; 
+            margin: 10px; 
+        }
+        .btn:hover { background: #2980b9; }
+        .logout { background: #e74c3c; }
+        .logout:hover { background: #c0392b; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>كوداك - منصة التعلم</h1>
+        <div class="auth-links">
+            {% if 'user_id' in session %}
+                مرحباً يا {{ session['user_name'] }}! 
+                <a href="{{ url_for('logout') }}" class="logout">تسجيل خروج</a>
+            {% else %}
+                <a href="{{ url_for('login') }}">تسجيل الدخول</a>
+                <a href="{{ url_for('register') }}">إنشاء حساب</a>
+            {% endif %}
+        </div>
+    </header>
+
+    <div class="container">
+        {% if 'user_id' in session %}
+            <div class="welcome">
+                مرحباً بعودتك يا {{ session['user_name'] }} 👋<br>
+                جاهز تبدأ تعلم جديد النهاردة؟
+            </div>
+            <a href="#" class="btn">عرض الكورسات المتاحة</a>
+        {% else %}
+            <div class="welcome">
+                مرحباً بك في كوداك!<br>
+                منصة تعليمية لتطوير مهاراتك في البرمجة والتكنولوجيا
+            </div>
+            <a href="{{ url_for('register') }}" class="btn">إنشاء حساب مجاني</a>
+            <a href="{{ url_for('login') }}" class="btn">تسجيل الدخول</a>
+        {% endif %}
+    </div>
+
+</body>
+</html>
