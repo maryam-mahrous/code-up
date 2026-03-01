@@ -3,28 +3,32 @@
 {% block title %}Courses - CodeUp{% endblock %}
 
 {% block content %}
-    <h1 class="text-center mb-5">Available Courses</h1>
+    <h1 class="text-center my-5">Available Courses</h1>
 
-    <div class="row row-cols-1 row-cols-md-3 g-4">
-        {% for course in courses %}
-            <div class="col">
-                <div class="course-card h-100">
-                    <div class="course-img">
-                        {{ course.category | upper }}
-                    </div>
-                    <div class="p-4">
-                        <h2 class="course-title">{{ course.title }}</h2>
-                        <p class="course-desc">{{ course.description | truncate(120) }}</p>
-                        <div class="d-flex justify-content-between text-muted small mb-3">
-                            <span>Category: {{ course.category }}</span>
-                            <span>Lessons: Coming soon</span>
+    {% if courses %}
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+            {% for course in courses %}
+                <div class="col">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="card-img-top bg-primary text-white d-flex align-items-center justify-content-center" style="height: 180px; font-size: 1.5rem; font-weight: bold;">
+                            {{ course.category | upper }}
                         </div>
-                        <a href="#" class="btn btn-primary w-100">Start Learning</a>
+                        <div class="card-body">
+                            <h5 class="card-title">{{ course.title }}</h5>
+                            <p class="card-text text-muted">{{ course.description | truncate(120) }}</p>
+                            <div class="d-flex justify-content-between small text-muted mb-3">
+                                <span>Category: {{ course.category }}</span>
+                                <span>Lessons: Coming soon</span>
+                            </div>
+                            <a href="#" class="btn btn-primary w-100">Start Learning</a>
+                        </div>
                     </div>
                 </div>
-            </div>
-        {% else %}
-            <p class="text-center text-muted col-12">No courses available yet. Stay tuned!</p>
-        {% endfor %}
-    </div>
-{% endblock %}
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="text-center text-muted fs-5 my-5">
+            No courses available yet. Stay tuned!
+        </p>
+    {% endif %}
+{% endblock %} 
