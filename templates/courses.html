@@ -1,104 +1,30 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>الكورسات المتاحة - كوداك</title>
-    <style>
-        body { font-family: 'Segoe UI', sans-serif; background: #f8f9fa; margin: 0; padding: 20px; }
-        h1 { text-align: center; color: #2c3e50; margin: 30px 0; }
-        .courses-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 25px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        .course-card {
-            background: white;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            transition: transform 0.3s, box-shadow 0.3s;
-            text-decoration: none;
-            color: inherit;
-        }
-        .course-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 12px 30px rgba(0,0,0,0.15);
-        }
-        .course-img {
-            height: 180px;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 1.2rem;
-            font-weight: bold;
-            text-align: center;
-        }
-        .course-content {
-            padding: 20px;
-        }
-        .course-title {
-            font-size: 1.4rem;
-            margin: 0 0 10px;
-            color: #2c3e50;
-        }
-        .course-desc {
-            color: #7f8c8d;
-            font-size: 1rem;
-            line-height: 1.5;
-            margin-bottom: 15px;
-        }
-        .course-meta {
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.9rem;
-            color: #95a5a6;
-        }
-        .btn {
-            display: block;
-            margin-top: 15px;
-            padding: 10px;
-            background: #3498db;
-            color: white;
-            text-align: center;
-            border-radius: 6px;
-            text-decoration: none;
-        }
-        .btn:hover { background: #2980b9; }
-    </style>
-</head>
-<body>
+{% extends "base.html" %}
 
-    <h1>الكورسات المتاحة</h1>
+{% block title %}Courses - CodeUp{% endblock %}
 
-    {% if courses %}
-        <div class="courses-grid">
-            {% for course in courses %}
-                <a href="#" class="course-card">
+{% block content %}
+    <h1 class="text-center mb-5">Available Courses</h1>
+
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        {% for course in courses %}
+            <div class="col">
+                <div class="course-card h-100">
                     <div class="course-img">
                         {{ course.category | upper }}
                     </div>
-                    <div class="course-content">
+                    <div class="p-4">
                         <h2 class="course-title">{{ course.title }}</h2>
                         <p class="course-desc">{{ course.description | truncate(120) }}</p>
-                        <div class="course-meta">
-                            <span>فئة: {{ course.category }}</span>
-                            <span>عدد الدروس: {{ course.lessons.count() }}</span>
+                        <div class="d-flex justify-content-between text-muted small mb-3">
+                            <span>Category: {{ course.category }}</span>
+                            <span>Lessons: Coming soon</span>
                         </div>
-                        <div class="btn">ابدأ التعلم</div>
+                        <a href="#" class="btn btn-primary w-100">Start Learning</a>
                     </div>
-                </a>
-            {% endfor %}
-        </div>
-    {% else %}
-        <p style="text-align:center; font-size:1.2rem; color:#7f8c8d;">
-            لا توجد كورسات متاحة حاليًا 😔
-        </p>
-    {% endif %}
-
-</body>
-</html>
+                </div>
+            </div>
+        {% else %}
+            <p class="text-center text-muted col-12">No courses available yet. Stay tuned!</p>
+        {% endfor %}
+    </div>
+{% endblock %}

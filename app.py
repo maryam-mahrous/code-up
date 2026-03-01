@@ -5,7 +5,7 @@ from functools import wraps
 from datetime import datetime
 
 app = Flask(__name__)
-app.secret_key = 'your-secret-key-change-me'
+app.secret_key = 'your-secret-key-change-me-please'
 
 # Database configuration
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///instance/kodak.db'
@@ -13,21 +13,27 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
 
+
 # ======================
 # Models
 # ======================
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
-    email = db.Column(db.String(120), unique=True, nullable=False)
+    email = db.Column(db.String(120), unique=True, nullable=False, index=True)
     password_hash = db.Column(db.String(255), nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+    progress = db.relationship('Progress', backref='user', lazy='dynamic')
 
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)
 
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
+
+    def __repr__(self):
+        return f"<User {self.email}>"
 
 
 class Course(db.Model):
@@ -36,6 +42,9 @@ class Course(db.Model):
     description = db.Column(db.Text, nullable=False)
     category = db.Column(db.String(100))
     html_file = db.Column(db.String(255))
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+    lessons = db.relationship('Lesson', backref='course', lazy='dynamic')
 
 
 class Lesson(db.Model):
@@ -44,6 +53,17 @@ class Lesson(db.Model):
     title = db.Column(db.String(200), nullable=False)
     video_url = db.Column(db.String(500))
     order = db.Column(db.Integer, default=0)
+
+    progress = db.relationship('Progress', backref='lesson', lazy='dynamic')
+
+
+class Progress(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    course_id = db.Column(db.Integer, db.ForeignKey('course.id'), nullable=False)
+    lesson_id = db.Column(db.Integer, db.ForeignKey('lesson.id'), nullable=False)
+    completed = db.Column(db.Boolean, default=False)
+    completed_at = db.Column(db.DateTime)
 
 
 # ======================
@@ -123,6 +143,7 @@ def logout():
 
 
 @app.route('/courses')
+@login_required
 def courses():
     all_courses = Course.query.all()
     return render_template('courses.html', courses=all_courses)
@@ -138,5 +159,31 @@ def test_db():
     }
 
 
+# ======================
+# Seed Data (run once)
+# ======================
+with app.app_context():
+    if Course.query.count() == 0:
+        course1 = Course(
+            title="Python Programming Basics",
+            description="Learn Python from scratch. Perfect for absolute beginners.",
+            category="Programming"
+        )
+        db.session.add(course1)
+        db.session.flush()
+
+        lessons1 = [
+            Lesson(course_id=course1.id, title="Introduction to Python", video_url="https://www.youtube.com/embed/rfscVS0vtbw", order=1),
+            Lesson(course_id=course1.id, title="Variables and Data Types", video_url="https://www.youtube.com/embed/_uQrJ0TkZlc", order=2),
+            Lesson(course_id=course1.id, title="Conditions and Loops", video_url="https://www.youtube.com/embed/6iF8Xb7Z3wQ", order=3),
+        ]
+        db.session.add_all(lessons1)
+
+        # Add more courses and lessons here if needed...
+
+        db.session.commit()
+        print("Initial data seeded successfully!")
+
+
 if __name__ == '__main__':
-    app.run(debug=True) 
+    app.run(debug=True)

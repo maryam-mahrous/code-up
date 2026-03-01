@@ -1,0 +1,122 @@
+/* ======================
+   Global Styles
+====================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+    color: #e0e0e0;
+    min-height: 100vh;
+}
+
+/* Container */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Navbar */
+.navbar {
+    background: rgba(15, 32, 39, 0.9);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 1rem 0;
+}
+
+.navbar-brand {
+    font-weight: 700;
+    font-size: 1.8rem;
+    color: #00d4ff !important;
+}
+
+.nav-link {
+    color: #e0e0e0 !important;
+    font-weight: 500;
+    transition: color 0.3s;
+}
+
+.nav-link:hover {
+    color: #00d4ff !important;
+}
+
+/* Headings */
+h1, h2, h3 {
+    color: #00d4ff;
+    margin-bottom: 1.5rem;
+}
+
+/* Cards (for courses) */
+.course-card {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(0, 212, 255, 0.2);
+    border-radius: 12px;
+    overflow: hidden;
+    backdrop-filter: blur(10px);
+    transition: all 0.4s ease;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.37);
+}
+
+.course-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 40px rgba(0, 212, 255, 0.3);
+    border-color: #00d4ff;
+}
+
+.course-img {
+    height: 200px;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.course-title {
+    font-size: 1.4rem;
+    color: #00d4ff;
+    margin: 1rem 0 0.5rem;
+}
+
+.course-desc {
+    color: #b0b0b0;
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+/* Buttons */
+.btn-primary {
+    background: #00d4ff;
+    border: none;
+    color: #0f2027;
+    font-weight: 600;
+    transition: all 0.3s;
+}
+
+.btn-primary:hover {
+    background: #00b8e0;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 212, 255, 0.4);
+}
+
+/* Alerts / Flash Messages */
+.alert {
+    border-radius: 8px;
+    margin: 1rem 0;
+}
+
+/* Footer (optional) */
+footer {
+    background: rgba(15, 32, 39, 0.9);
+    color: #b0b0b0;
+    text-align: center;
+    padding: 2rem 0;
+    margin-top: 3rem;
+}  
