@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}Courses - CodeUp{% endblock %}
+
+{% block content %}
+    <h1 class="text-center my-5">Available Courses</h1>
+
+    {% if courses %}
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+            {% for course in courses %}
+                <div class="col">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ course.title }}</h5>
+                            <p class="card-text text-muted">{{ course.description | truncate(100) }}</p>
+                            <p class="text-muted small">Category: {{ course.category }}</p>
+                            <a href="#" class="btn btn-primary">Start Learning</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="text-center text-muted fs-5 my-5">No courses available yet. Stay tuned!</p>
+    {% endif %}
+{% endblock %}

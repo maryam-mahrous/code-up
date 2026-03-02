@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block title %}CodeUp - Learn Programming{% endblock %}
+
+{% block content %}
+    <div class="text-center py-5">
+        <h1 class="display-4">Welcome to CodeUp</h1>
+        <p class="lead text-muted">The best place to learn programming step by step.</p>
+        <a href="{{ url_for('register') }}" class="btn btn-primary btn-lg mt-3">Get Started</a>
+        <a href="{{ url_for('courses') }}" class="btn btn-outline-primary btn-lg mt-3 ms-2">View Courses</a>
+    </div>
+{% endblock %}
